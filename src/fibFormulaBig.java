@@ -17,7 +17,7 @@ public class fibFormulaBig {
         static int numberOfTrials = 100;
         static int MAXINPUTSIZE  = (int) Math.pow(1.5,28);
         static int MININPUTSIZE  =  1;
-        static int Nums = 500;
+        static int Nums = 999;
         static BigInteger fibResult;
         static String resultSet = "";
         // static int SIZEINCREMENT =  10000000; // not using this since we are doubling the size each time
@@ -144,36 +144,39 @@ public class fibFormulaBig {
 
         static BigInteger fib(int n)
         {
+            //Declare Variables
             BigInteger result;
-
             BigDecimal phi = new BigDecimal(0);
             BigDecimal phi2 =new BigDecimal(0);
             BigDecimal five = new BigDecimal(5);
+            //Calculate the number of digits that the result may have
             double digits =numberOfDigits(n);
-            //System.out.println("digits = " + digits);
+            //make the digit 1 if the number of digits is 0, for calculation below that multiplies (0 * number = 0)
             if(digits == 0){
                 digits = 1;
             }
+            //set the Math Context needed for squaring to precision of the number of digits plus a couple more
             MathContext mc = new MathContext((int) digits + 2);
+            //declare variables for Big decimal calculations
             BigDecimal squared = new BigDecimal(0);
             BigDecimal one = new BigDecimal(1);
             BigDecimal two = new BigDecimal(2);
+            //Start calculations for fibonacci formula
             squared = five.sqrt(mc);
             phi = (one.add(squared)).divide(two);
             phi2 = (one.subtract(phi));
+            //Declare vaiables for each step to help with intermediary calculations
             BigDecimal step1 = new BigDecimal(0);
             BigDecimal step2 = new BigDecimal(0);
             BigDecimal step3 = new BigDecimal(0);
             BigDecimal step4 = new BigDecimal(0);
+            //put it all together
             step1 = phi.pow(n);
             step2 = phi2.pow(n);
             step3 = step1.subtract(step2);
             step4 = step3.divide(squared,mc);
             result = step4.toBigInteger();
-
-
-            //result = (phi.pow(n).subtract(phi2.pow(n))).divide(squared,0,RoundingMode.HALF_UP);;
-
+            //return fib number
             return result;
         }
 
@@ -181,7 +184,7 @@ public class fibFormulaBig {
     {
         if (n == 1)
             return 1;
-
+        //calculate the number of digits in fib number
         // using phi = 1.6180339887498948
         double d = (n * Math.log10(1.6180339887498948)) -
                 ((Math.log10(5)) / 2);
